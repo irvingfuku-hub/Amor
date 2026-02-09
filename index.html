@@ -1,209 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para Angélica 💖</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  font-family: "Segoe UI", system-ui, sans-serif;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(180deg, #ff7aa2, #ff9fbf);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.container {
-  width: 92%;
-  max-width: 420px;
-  background: #fff1e6;
-  border-radius: 22px;
-  padding: 22px 18px 26px;
-  text-align: center;
-  overflow: hidden;
-}
-
-/* Tap inicial */
-.tap {
-  font-size: 22px;
-  font-weight: 600;
-  color: #d14b7d;
-  animation: pulseTap 1.6s infinite;
-  cursor: pointer;
-}
-
-@keyframes pulseTap {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-
-/* Oculto */
-.hidden {
-  display: none;
-}
-
-h2 {
-  margin-top: 6px;
-  font-size: 20px;
-  color: #333;
-}
-
-p {
-  font-size: 16px;
-  color: #444;
-  line-height: 1.5;
-}
-
-/* Corazón SVG */
-.heart-container {
-  width: 200px;
-  height: 180px;
-  margin: 14px auto 6px;
-}
-
-svg {
-  width: 100%;
-  height: 100%;
-}
-
-path {
-  fill: none;
-  stroke: #ff4d6d;
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: drawHeart 2.2s ease-out forwards,
-             heartbeat 1.8s ease-in-out infinite 2.4s;
-}
-
-@keyframes drawHeart {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-/* Corazones flotantes */
-.float {
-  position: absolute;
-  font-size: 14px;
-  color: #ff4d6d;
-  animation: floatUp 6s infinite ease-in-out;
-  opacity: 0;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(40px); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translateY(-120px); opacity: 0; }
-}
-
-.time {
-  margin-top: 14px;
-  font-weight: 600;
-  color: #c44569;
-}
-
-.footer {
-  margin-top: 16px;
-  font-size: 18px;
-  font-weight: 700;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Angélica ❤️</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-<div class="container">
-
-  <div class="tap" id="tapText">
-    💖 Tap para descubrir 💖
-  </div>
-
-  <div class="hidden" id="content">
-    <h2>Para el amor de mi vida, Angélica:</h2>
-
-    <p>
-      Si pudiera elegir un lugar seguro,<br>
-      sería a <b>tu lado</b> 💖
-    </p>
-
-    <div class="heart-container">
-      <svg viewBox="0 0 100 90">
-        <path d="
-          M50 80
-          C20 60, 5 40, 25 20
-          C40 5, 50 20, 50 20
-          C50 20, 60 5, 75 20
-          C95 40, 80 60, 50 80
-        "/>
-      </svg>
-    </div>
-
-    <div class="time" id="timeTogether"></div>
-
-    <div class="footer">
-      ¿Quieres ser mi Valentín? ❤️
-    </div>
-  </div>
-
+<!-- Pantalla tipo lockscreen -->
+<div id="lockscreen">
+  <div class="tap">💖 Tap para descubrir 💖</div>
 </div>
 
-<script>
-const tap = document.getElementById("tapText");
-const content = document.getElementById("content");
+<!-- Contenido principal -->
+<div id="content" class="hidden">
 
-tap.addEventListener("click", () => {
-  tap.style.display = "none";
-  content.classList.remove("hidden");
-  createFloatingHearts();
-  calculateTime();
-});
+  <audio id="music" src="music.mp3" loop></audio>
 
-function createFloatingHearts() {
-  const words = [
-    "amor", "hogar", "nosotros", "abrazo",
-    "confianza", "equipo", "calma", "futuro"
-  ];
+  <div class="card">
 
-  for (let i = 0; i < 12; i++) {
-    const h = document.createElement("div");
-    h.className = "float";
-    h.innerText = "❤ " + words[i % words.length];
-    h.style.left = Math.random() * 80 + "%";
-    h.style.bottom = "80px";
-    h.style.animationDelay = Math.random() * 3 + "s";
-    document.body.appendChild(h);
-  }
-}
+    <h1>Para el amor de mi vida, Angélica:</h1>
 
-function calculateTime() {
-  const start = new Date("2024-05-17T00:00:00");
-  const now = new Date();
-  const diff = now - start;
+    <p class="message">
+      Si pudiera elegir un lugar seguro,<br />
+      sería <strong>a tu lado</strong> 💖
+    </p>
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const months = Math.floor(days / 30);
-  const years = Math.floor(months / 12);
+    <!-- Corazón -->
+    <svg viewBox="0 0 100 100" class="heart">
+      <path d="
+        M50 85
+        C20 60, 5 45, 25 25
+        C40 10, 50 25, 50 25
+        C50 25, 60 10, 75 25
+        C95 45, 80 60, 50 85
+      " />
+    </svg>
 
-  document.getElementById("timeTogether").innerText =
-    `Juntos desde hace ${years} años, ${months % 12} meses y ${days % 30} días 💕`;
-}
-</script>
+    <!-- Pixel art -->
+    <img src="pixel.png" alt="Nosotros" class="pixel" />
 
+    <!-- Contador -->
+    <div id="counter"></div>
+
+    <h2 class="question">¿Ser mi Valentín? ❤️</h2>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
