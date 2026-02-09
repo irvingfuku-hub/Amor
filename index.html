@@ -22,6 +22,7 @@ body{
   border-radius:20px;
   padding:20px;
   box-shadow:0 15px 35px rgba(0,0,0,0.25);
+  text-align:center;
 }
 
 .text{
@@ -39,18 +40,42 @@ body{
   position:absolute;
   bottom:0;
   left:50%;
-  transform:translateX(-50%);
+  transform:translateX(-50%) scaleY(0);
+  transform-origin: bottom;
   width:30px;
   height:80px;
   background:#8b5a2b;
   border-radius:10px;
 }
 
+.trunk.grow{
+  animation: growTrunk 2s ease-out forwards;
+}
+
+@keyframes growTrunk{
+  to{
+    transform:translateX(-50%) scaleY(1);
+  }
+}
+
 .heart{
   position:absolute;
   color:#ff4d6d;
-  font-size:18px;
-  animation:float 6s infinite ease-in-out;
+  opacity:0;
+  transform:scale(0);
+}
+
+.heart.show{
+  animation:
+    appear 0.8s ease forwards,
+    float 6s infinite ease-in-out;
+}
+
+@keyframes appear{
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
 }
 
 @keyframes float{
@@ -58,11 +83,25 @@ body{
   50%{transform:translateY(-10px);}
 }
 
-.timer{
+.message{
   margin-top:10px;
   font-weight:bold;
   font-size:14px;
-  text-align:center;
+  opacity:0;
+}
+
+.message.show{
+  animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn{
+  to{opacity:1;}
+}
+
+.hint{
+  font-size:13px;
+  opacity:0.8;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -78,46 +117,65 @@ body{
   </div>
 
   <div class="tree" id="tree">
-    <div class="trunk"></div>
+    <div class="trunk" id="trunk"></div>
   </div>
 
-  <div class="timer" id="timer"></div>
+  <div class="message" id="finalMessage">
+    ¿Quieres seguir creciendo conmigo? 🌱❤️
+  </div>
+
+  <div class="hint" id="hint">
+    Toca la pantalla 💫
+  </div>
 </div>
 
 <script>
+const words = [
+  "amor","hogar","nosotros","confianza","paz",
+  "abrazo","equipo","siempre","cariño","luz",
+  "risa","calma","compañera","futuro","ternura",
+  "magia","cuidado","sueños","latidos","vida"
+];
+
 const tree = document.getElementById("tree");
-for(let i=0;i<60;i++){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤";
-  h.style.left=(50+Math.random()*120-60)+"px";
-  h.style.top=(Math.random()*120)+"px";
-  h.style.fontSize=(14+Math.random()*10)+"px";
-  h.style.animationDelay=(Math.random()*5)+"s";
-  tree.appendChild(h);
+const trunk = document.getElementById("trunk");
+const finalMessage = document.getElementById("finalMessage");
+const hint = document.getElementById("hint");
+
+let grown = false;
+
+function growTree(){
+  if(grown) return;
+  grown = true;
+  hint.style.display = "none";
+
+  trunk.classList.add("grow");
+
+  setTimeout(() => {
+    words.forEach((word, i) => {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.innerHTML = "❤<br><span style='font-size:10px;color:#ff6b81'>" + word + "</span>";
+      h.style.left = (50 + Math.random()*120 - 60) + "px";
+      h.style.top = (Math.random()*120) + "px";
+      h.style.fontSize = (16 + Math.random()*8) + "px";
+
+      tree.appendChild(h);
+
+      setTimeout(() => {
+        h.classList.add("show");
+      }, i * 120);
+    });
+
+    setTimeout(() => {
+      finalMessage.classList.add("show");
+    }, words.length * 120 + 800);
+
+  }, 2000);
 }
 
-const startDate = new Date("2024-05-17T00:00:00");
-
-function updateTimer(){
-  const now = new Date();
-  let diff = now - startDate;
-
-  const days = Math.floor(diff / (1000*60*60*24));
-  diff %= (1000*60*60*24);
-  const hours = Math.floor(diff / (1000*60*60));
-  diff %= (1000*60*60);
-  const minutes = Math.floor(diff / (1000*60));
-  diff %= (1000*60);
-  const seconds = Math.floor(diff / 1000);
-
-  document.getElementById("timer").innerHTML =
-    `Mi amor por ti comenzó hace…<br>
-     ${days} días ${hours} horas ${minutes} minutos ${seconds} segundos`;
-}
-
-setInterval(updateTimer,1000);
-updateTimer();
+document.body.addEventListener("click", growTree);
+document.body.addEventListener("touchstart", growTree);
 </script>
 
 </body>
