@@ -1,181 +1,192 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Para Angélica 💖</title>
 
 <style>
-body{
-  margin:0;
-  height:100vh;
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial, sans-serif;
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
 }
 
-.card{
-  background:#fff3e8;
-  width:90%;
-  max-width:420px;
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.25);
-  text-align:center;
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ff7aa2, #ff9fbf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.text{
-  font-size:16px;
-  color:#444;
+.container {
+  width: 92%;
+  max-width: 420px;
+  background: #fff1e6;
+  border-radius: 22px;
+  padding: 22px 18px 26px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.tree{
-  position:relative;
-  height:220px;
-  margin:20px 0;
+/* Tap inicial */
+.tap {
+  font-size: 22px;
+  font-weight: 600;
+  color: #d14b7d;
+  animation: pulse 1.6s infinite;
+  cursor: pointer;
 }
 
-.trunk{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%) scaleY(0);
-  transform-origin: bottom;
-  width:30px;
-  height:80px;
-  background:#8b5a2b;
-  border-radius:10px;
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 
-.trunk.grow{
-  animation: growTrunk 2s ease-out forwards;
+/* Contenido oculto */
+.hidden {
+  display: none;
 }
 
-@keyframes growTrunk{
-  to{
-    transform:translateX(-50%) scaleY(1);
-  }
+h2 {
+  margin-top: 6px;
+  font-size: 20px;
+  color: #333;
 }
 
-.heart{
-  position:absolute;
-  color:#ff4d6d;
-  opacity:0;
-  transform:scale(0);
+p {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.5;
 }
 
-.heart.show{
-  animation:
-    appear 0.8s ease forwards,
-    float 6s infinite ease-in-out;
+/* Árbol */
+.tree {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  margin: 10px 0;
 }
 
-@keyframes appear{
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
+.trunk {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 0;
+  background: #8b5a2b;
+  border-radius: 14px;
+  animation: growTrunk 1.6s ease-out forwards;
 }
 
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-10px);}
+@keyframes growTrunk {
+  from { height: 0; }
+  to { height: 110px; }
 }
 
-.message{
-  margin-top:10px;
-  font-weight:bold;
-  font-size:14px;
-  opacity:0;
+/* Corazones */
+.heart {
+  position: absolute;
+  color: #ff4d6d;
+  font-size: 14px;
+  animation: float 6s infinite ease-in-out;
+  opacity: 0;
 }
 
-.message.show{
-  animation: fadeIn 2s ease forwards;
+@keyframes float {
+  0% { transform: translateY(30px); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-120px); opacity: 0; }
 }
 
-@keyframes fadeIn{
-  to{opacity:1;}
+.time {
+  margin-top: 14px;
+  font-weight: 600;
+  color: #c44569;
 }
 
-.hint{
-  font-size:13px;
-  opacity:0.8;
-  margin-top:10px;
+.footer {
+  margin-top: 14px;
+  font-size: 17px;
+  font-weight: 600;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <div class="text">
-    <strong>Para el amor de mi vida, Angélica:</strong><br><br>
-    Si pudiera elegir un lugar seguro,<br>
-    sería a <strong>tu lado</strong> 💖<br><br>
-    — Irving
+<div class="container" id="card">
+
+  <div class="tap" id="tapText">
+    💖 Tap para descubrir 💖
   </div>
 
-  <div class="tree" id="tree">
-    <div class="trunk" id="trunk"></div>
+  <div class="hidden" id="content">
+    <h2>Para el amor de mi vida, Angélica:</h2>
+
+    <p>
+      Si pudiera elegir un lugar seguro,<br>
+      sería a <b>tu lado</b> 💖
+    </p>
+
+    <div class="tree">
+      <div class="trunk"></div>
+    </div>
+
+    <div class="time" id="timeTogether"></div>
+
+    <div class="footer">
+      ¿Quieres seguir creciendo juntos? 🌱❤️
+    </div>
   </div>
 
-  <div class="message" id="finalMessage">
-    ¿Quieres seguir creciendo conmigo? 🌱❤️
-  </div>
-
-  <div class="hint" id="hint">
-    Toca la pantalla 💫
-  </div>
 </div>
 
 <script>
-const words = [
-  "amor","hogar","nosotros","confianza","paz",
-  "abrazo","equipo","siempre","cariño","luz",
-  "risa","calma","compañera","futuro","ternura",
-  "magia","cuidado","sueños","latidos","vida"
-];
+const tap = document.getElementById("tapText");
+const content = document.getElementById("content");
 
-const tree = document.getElementById("tree");
-const trunk = document.getElementById("trunk");
-const finalMessage = document.getElementById("finalMessage");
-const hint = document.getElementById("hint");
+tap.addEventListener("click", () => {
+  tap.style.display = "none";
+  content.classList.remove("hidden");
+  createHearts();
+  calculateTime();
+});
 
-let grown = false;
+function createHearts() {
+  const words = [
+    "amor", "hogar", "nosotros", "abrazo", "confianza",
+    "equipo", "calma", "futuro", "luz", "ternura"
+  ];
 
-function growTree(){
-  if(grown) return;
-  grown = true;
-  hint.style.display = "none";
-
-  trunk.classList.add("grow");
-
-  setTimeout(() => {
-    words.forEach((word, i) => {
-      const h = document.createElement("div");
-      h.className = "heart";
-      h.innerHTML = "❤<br><span style='font-size:10px;color:#ff6b81'>" + word + "</span>";
-      h.style.left = (50 + Math.random()*120 - 60) + "px";
-      h.style.top = (Math.random()*120) + "px";
-      h.style.fontSize = (16 + Math.random()*8) + "px";
-
-      tree.appendChild(h);
-
-      setTimeout(() => {
-        h.classList.add("show");
-      }, i * 120);
-    });
-
-    setTimeout(() => {
-      finalMessage.classList.add("show");
-    }, words.length * 120 + 800);
-
-  }, 2000);
+  for (let i = 0; i < 14; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤ " + words[i % words.length];
+    heart.style.left = Math.random() * 80 + "%";
+    heart.style.bottom = "40px";
+    heart.style.animationDelay = Math.random() * 3 + "s";
+    document.querySelector(".tree").appendChild(heart);
+  }
 }
 
-document.body.addEventListener("click", growTree);
-document.body.addEventListener("touchstart", growTree);
+function calculateTime() {
+  const startDate = new Date("2024-05-17T00:00:00");
+  const now = new Date();
+
+  let diff = now - startDate;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const months = Math.floor(days / 30);
+  const years = Math.floor(months / 12);
+
+  document.getElementById("timeTogether").innerText =
+    `Juntos desde hace ${years} años, ${months % 12} meses y ${days % 30} días 💕`;
+}
 </script>
 
 </body>
