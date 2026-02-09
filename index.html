@@ -27,7 +27,6 @@ body {
   border-radius: 22px;
   padding: 22px 18px 26px;
   text-align: center;
-  position: relative;
   overflow: hidden;
 }
 
@@ -36,17 +35,17 @@ body {
   font-size: 22px;
   font-weight: 600;
   color: #d14b7d;
-  animation: pulse 1.6s infinite;
+  animation: pulseTap 1.6s infinite;
   cursor: pointer;
 }
 
-@keyframes pulse {
+@keyframes pulseTap {
   0% { transform: scale(1); }
   50% { transform: scale(1.08); }
   100% { transform: scale(1); }
 }
 
-/* Contenido oculto */
+/* Oculto */
 .hidden {
   display: none;
 }
@@ -63,42 +62,52 @@ p {
   line-height: 1.5;
 }
 
-/* Árbol */
-.tree {
-  position: relative;
+/* Corazón SVG */
+.heart-container {
+  width: 200px;
+  height: 180px;
+  margin: 14px auto 6px;
+}
+
+svg {
   width: 100%;
-  height: 220px;
-  margin: 10px 0;
+  height: 100%;
 }
 
-.trunk {
+path {
+  fill: none;
+  stroke: #ff4d6d;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawHeart 2.2s ease-out forwards,
+             heartbeat 1.8s ease-in-out infinite 2.4s;
+}
+
+@keyframes drawHeart {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* Corazones flotantes */
+.float {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 28px;
-  height: 0;
-  background: #8b5a2b;
-  border-radius: 14px;
-  animation: growTrunk 1.6s ease-out forwards;
-}
-
-@keyframes growTrunk {
-  from { height: 0; }
-  to { height: 110px; }
-}
-
-/* Corazones */
-.heart {
-  position: absolute;
-  color: #ff4d6d;
   font-size: 14px;
-  animation: float 6s infinite ease-in-out;
+  color: #ff4d6d;
+  animation: floatUp 6s infinite ease-in-out;
   opacity: 0;
 }
 
-@keyframes float {
-  0% { transform: translateY(30px); opacity: 0; }
+@keyframes floatUp {
+  0% { transform: translateY(40px); opacity: 0; }
   20% { opacity: 1; }
   100% { transform: translateY(-120px); opacity: 0; }
 }
@@ -110,16 +119,16 @@ p {
 }
 
 .footer {
-  margin-top: 14px;
-  font-size: 17px;
-  font-weight: 600;
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="card">
+<div class="container">
 
   <div class="tap" id="tapText">
     💖 Tap para descubrir 💖
@@ -133,14 +142,22 @@ p {
       sería a <b>tu lado</b> 💖
     </p>
 
-    <div class="tree">
-      <div class="trunk"></div>
+    <div class="heart-container">
+      <svg viewBox="0 0 100 90">
+        <path d="
+          M50 80
+          C20 60, 5 40, 25 20
+          C40 5, 50 20, 50 20
+          C50 20, 60 5, 75 20
+          C95 40, 80 60, 50 80
+        "/>
+      </svg>
     </div>
 
     <div class="time" id="timeTogether"></div>
 
     <div class="footer">
-      ¿Quieres seguir creciendo juntos? 🌱❤️
+      ¿Quieres ser mi Valentín? ❤️
     </div>
   </div>
 
@@ -153,32 +170,31 @@ const content = document.getElementById("content");
 tap.addEventListener("click", () => {
   tap.style.display = "none";
   content.classList.remove("hidden");
-  createHearts();
+  createFloatingHearts();
   calculateTime();
 });
 
-function createHearts() {
+function createFloatingHearts() {
   const words = [
-    "amor", "hogar", "nosotros", "abrazo", "confianza",
-    "equipo", "calma", "futuro", "luz", "ternura"
+    "amor", "hogar", "nosotros", "abrazo",
+    "confianza", "equipo", "calma", "futuro"
   ];
 
-  for (let i = 0; i < 14; i++) {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "❤ " + words[i % words.length];
-    heart.style.left = Math.random() * 80 + "%";
-    heart.style.bottom = "40px";
-    heart.style.animationDelay = Math.random() * 3 + "s";
-    document.querySelector(".tree").appendChild(heart);
+  for (let i = 0; i < 12; i++) {
+    const h = document.createElement("div");
+    h.className = "float";
+    h.innerText = "❤ " + words[i % words.length];
+    h.style.left = Math.random() * 80 + "%";
+    h.style.bottom = "80px";
+    h.style.animationDelay = Math.random() * 3 + "s";
+    document.body.appendChild(h);
   }
 }
 
 function calculateTime() {
-  const startDate = new Date("2024-05-17T00:00:00");
+  const start = new Date("2024-05-17T00:00:00");
   const now = new Date();
-
-  let diff = now - startDate;
+  const diff = now - start;
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const months = Math.floor(days / 30);
