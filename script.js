@@ -5,12 +5,20 @@ const counter = document.getElementById("counter");
 
 const startDate = new Date("2024-05-17T00:00:00");
 
+let heartbeatInterval = null;
+
 lockscreen.addEventListener("click", () => {
   lockscreen.style.display = "none";
   content.classList.remove("hidden");
   music.play();
+
+  // Vibración inicial (confirmación)
+  vibrate([100, 50, 100]);
+
   updateCounter();
   setInterval(updateCounter, 1000);
+
+  startHeartbeatVibration();
 });
 
 function updateCounter() {
@@ -37,4 +45,21 @@ function updateCounter() {
     <strong>${minutes}</strong> minutos,
     <strong>${seconds}</strong> segundos 💕
   `;
+}
+
+/* Vibración segura */
+function vibrate(pattern) {
+  if ("vibrate" in navigator) {
+    navigator.vibrate(pattern);
+  }
+}
+
+/* Latido sincronizado */
+function startHeartbeatVibration() {
+  if (!("vibrate" in navigator)) return;
+
+  heartbeatInterval = setInterval(() => {
+    // Doble pulso tipo corazón ❤️
+    navigator.vibrate([60, 40, 80]);
+  }, 1300); // coincide con el beat del CSS
 }
