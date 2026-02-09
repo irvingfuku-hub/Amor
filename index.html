@@ -1,40 +1,65 @@
-<svg viewBox="0 0 200 180" class="heart">
-  <defs>
-    <clipPath id="heartClip">
-      <path d="
-        M100 170
-        C15 110, 10 40, 100 70
-        C190 40, 185 110, 100 170
-      " />
-    </clipPath>
-  </defs>
+const lockscreen = document.getElementById("lockscreen");
+const content = document.getElementById("content");
+const music = document.getElementById("music");
+const counter = document.getElementById("counter");
 
-  <!-- Fondo del corazón -->
-  <rect
-    x="0"
-    y="0"
-    width="200"
-    height="180"
-    fill="#fff4ea"
-    clip-path="url(#heartClip)"
-  />
+const startDate = new Date("2024-05-17T00:00:00");
 
-  <!-- Imagen -->
-  <image
-    href="pixel.png"
-    x="30"
-    y="40"
-    width="140"
-    height="100"
-    preserveAspectRatio="xMidYMid meet"
-    clip-path="url(#heartClip)"
-    class="pixel-inside"
-  />
+let heartbeatInterval = null;
 
-  <!-- Trazo -->
-  <path d="
-    M100 170
-    C15 110, 10 40, 100 70
-    C190 40, 185 110, 100 170
-  " />
-</svg>
+lockscreen.addEventListener("click", () => {
+  lockscreen.style.display = "none";
+  content.classList.remove("hidden");
+  music.play();
+
+  // Vibración inicial (confirmación)
+  vibrate([100, 50, 100]);
+
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  startHeartbeatVibration();
+});
+
+function updateCounter() {
+  const now = new Date();
+  let diff = Math.floor((now - startDate) / 1000);
+
+  const seconds = diff % 60;
+  diff = Math.floor(diff / 60);
+  const minutes = diff % 60;
+  diff = Math.floor(diff / 60);
+  const hours = diff % 24;
+  diff = Math.floor(diff / 24);
+
+  const days = diff % 30;
+  const months = Math.floor(diff / 30) % 12;
+  const years = Math.floor(diff / 365);
+
+  counter.innerHTML = `
+    Mi amor por ti comenzó hace…<br>
+    <strong>${years}</strong> años,
+    <strong>${months}</strong> meses,
+    <strong>${days}</strong> días<br>
+    <strong>${hours}</strong> horas,
+    <strong>${minutes}</strong> minutos,
+    <strong>${seconds}</strong> segundos 💕
+  `;
+}
+
+/* Vibración segura */
+function vibrate(pattern) {
+  if ("vibrate" in navigator) {
+    navigator.vibrate(pattern);
+  }
+}
+
+/* Latido sincronizado */
+function startHeartbeatVibration() {
+  if (!("vibrate" in navigator)) return;
+
+  heartbeatInterval = setInterval(() => {
+    // Doble pulso tipo corazón ❤️
+    navigator.vibrate([60, 40, 80]);
+  }, 1300); // coincide con el beat del CSS
+}
