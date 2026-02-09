@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(180deg, #ff7aa2, #ffb3c7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Lockscreen */
+#lockscreen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #ff6fa1, #ff9bbd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.tap {
+  color: white;
+  font-size: 1.6rem;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.hidden {
+  display: none;
+}
+
+/* Card */
+.card {
+  background: #fff4ea;
+  padding: 25px;
+  border-radius: 25px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,.2);
+}
+
+h1 {
+  font-size: 1.2rem;
+}
+
+.message {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* Corazón */
+.heart {
+  width: 120px;
+  margin: 15px auto;
+}
+
+.heart path {
+  fill: none;
+  stroke: #ff2f6d;
+  stroke-width: 2;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: draw 2.5s ease forwards, beat 1.2s infinite 2.5s;
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Pixel art */
+.pixel {
+  width: 160px;
+  margin: 15px auto;
+  image-rendering: pixelated;
+}
+
+/* Contador */
+#counter {
+  font-size: 0.9rem;
+  margin-top: 10px;
+  color: #555;
+}
+
+.question {
+  margin-top: 15px;
+  font-size: 1.2rem;
+}
