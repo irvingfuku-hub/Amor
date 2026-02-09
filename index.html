@@ -1,65 +1,66 @@
-const lockscreen = document.getElementById("lockscreen");
-const content = document.getElementById("content");
-const music = document.getElementById("music");
-const counter = document.getElementById("counter");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Angélica ❤️</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-const startDate = new Date("2024-05-17T00:00:00");
+<div id="lockscreen">
+  <div class="tap">💖 Tap para descubrir 💖</div>
+</div>
 
-let heartbeatInterval = null;
+<div id="content" class="hidden">
 
-lockscreen.addEventListener("click", () => {
-  lockscreen.style.display = "none";
-  content.classList.remove("hidden");
-  music.play();
+  <audio id="music" src="music.mp3" loop></audio>
 
-  // Vibración inicial (confirmación)
-  vibrate([100, 50, 100]);
+  <div class="card">
 
-  updateCounter();
-  setInterval(updateCounter, 1000);
+    <h1>Para el amor de mi vida, Angélica:</h1>
 
-  startHeartbeatVibration();
-});
+    <p class="message">
+      Si pudiera elegir un lugar seguro,<br>
+      sería <strong>a tu lado</strong> 💖
+    </p>
 
-function updateCounter() {
-  const now = new Date();
-  let diff = Math.floor((now - startDate) / 1000);
+    <!-- Corazón con imagen dentro -->
+    <svg viewBox="0 0 200 180" class="heart">
+      <defs>
+        <clipPath id="heartClip">
+          <path d="
+            M100 165
+            C10 100, 20 20, 100 55
+            C180 20, 190 100, 100 165
+          " />
+        </clipPath>
+      </defs>
 
-  const seconds = diff % 60;
-  diff = Math.floor(diff / 60);
-  const minutes = diff % 60;
-  diff = Math.floor(diff / 60);
-  const hours = diff % 24;
-  diff = Math.floor(diff / 24);
+      <image
+        href="pixel.png"
+        x="20"
+        y="30"
+        width="160"
+        height="120"
+        clip-path="url(#heartClip)"
+        class="pixel-inside"
+      />
 
-  const days = diff % 30;
-  const months = Math.floor(diff / 30) % 12;
-  const years = Math.floor(diff / 365);
+      <path d="
+        M100 165
+        C10 100, 20 20, 100 55
+        C180 20, 190 100, 100 165
+      " />
+    </svg>
 
-  counter.innerHTML = `
-    Mi amor por ti comenzó hace…<br>
-    <strong>${years}</strong> años,
-    <strong>${months}</strong> meses,
-    <strong>${days}</strong> días<br>
-    <strong>${hours}</strong> horas,
-    <strong>${minutes}</strong> minutos,
-    <strong>${seconds}</strong> segundos 💕
-  `;
-}
+    <div id="counter"></div>
 
-/* Vibración segura */
-function vibrate(pattern) {
-  if ("vibrate" in navigator) {
-    navigator.vibrate(pattern);
-  }
-}
+    <h2 class="question">¿Ser mi Valentín? ❤️</h2>
 
-/* Latido sincronizado */
-function startHeartbeatVibration() {
-  if (!("vibrate" in navigator)) return;
+  </div>
+</div>
 
-  heartbeatInterval = setInterval(() => {
-    // Doble pulso tipo corazón ❤️
-    navigator.vibrate([60, 40, 80]);
-  }, 1300); // coincide con el beat del CSS
-}
+<script src="script.js"></script>
+</body>
+</html>
