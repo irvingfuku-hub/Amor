@@ -1,66 +1,40 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Para Angélica ❤️</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-<div id="lockscreen">
-  <div class="tap">💖 Tap para descubrir 💖</div>
-</div>
-
-<div id="content" class="hidden">
-
-  <audio id="music" src="music.mp3" loop></audio>
-
-  <div class="card">
-
-    <h1>Para el amor de mi vida, Angélica:</h1>
-
-    <p class="message">
-      Si pudiera elegir un lugar seguro,<br>
-      sería <strong>a tu lado</strong> 💖
-    </p>
-
-    <!-- Corazón con imagen dentro -->
-    <svg viewBox="0 0 200 180" class="heart">
-      <defs>
-        <clipPath id="heartClip">
-          <path d="
-            M100 165
-            C10 100, 20 20, 100 55
-            C180 20, 190 100, 100 165
-          " />
-        </clipPath>
-      </defs>
-
-      <image
-        href="pixel.png"
-        x="20"
-        y="30"
-        width="160"
-        height="120"
-        clip-path="url(#heartClip)"
-        class="pixel-inside"
-      />
-
+<svg viewBox="0 0 200 180" class="heart">
+  <defs>
+    <clipPath id="heartClip">
       <path d="
-        M100 165
-        C10 100, 20 20, 100 55
-        C180 20, 190 100, 100 165
+        M100 170
+        C15 110, 10 40, 100 70
+        C190 40, 185 110, 100 170
       " />
-    </svg>
+    </clipPath>
+  </defs>
 
-    <div id="counter"></div>
+  <!-- Fondo del corazón -->
+  <rect
+    x="0"
+    y="0"
+    width="200"
+    height="180"
+    fill="#fff4ea"
+    clip-path="url(#heartClip)"
+  />
 
-    <h2 class="question">¿Ser mi Valentín? ❤️</h2>
+  <!-- Imagen -->
+  <image
+    href="pixel.png"
+    x="30"
+    y="40"
+    width="140"
+    height="100"
+    preserveAspectRatio="xMidYMid meet"
+    clip-path="url(#heartClip)"
+    class="pixel-inside"
+  />
 
-  </div>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+  <!-- Trazo -->
+  <path d="
+    M100 170
+    C15 110, 10 40, 100 70
+    C190 40, 185 110, 100 170
+  " />
+</svg>
