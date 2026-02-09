@@ -38,7 +38,7 @@ function updateCounter() {
 
   counter.innerHTML = `
     Mi amor por ti comenzó hace…<br>
-    <strong>${years}</strong> años,
+    <strong>${years}</strong> año,
     <strong>${months}</strong> meses,
     <strong>${days}</strong> días<br>
     <strong>${hours}</strong> horas,
