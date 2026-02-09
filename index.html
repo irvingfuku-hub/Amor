@@ -8,12 +8,10 @@
 </head>
 <body>
 
-<!-- Pantalla tipo lockscreen -->
 <div id="lockscreen">
   <div class="tap">💖 Tap para descubrir 💖</div>
 </div>
 
-<!-- Contenido principal -->
 <div id="content" class="hidden">
 
   <audio id="music" src="music.mp3" loop></audio>
@@ -23,25 +21,39 @@
     <h1>Para el amor de mi vida, Angélica:</h1>
 
     <p class="message">
-      Si pudiera elegir un lugar seguro,<br />
+      Si pudiera elegir un lugar seguro,<br>
       sería <strong>a tu lado</strong> 💖
     </p>
 
-    <!-- Corazón -->
-    <svg viewBox="0 0 100 100" class="heart">
+    <!-- Corazón con imagen dentro -->
+    <svg viewBox="0 0 200 180" class="heart">
+      <defs>
+        <clipPath id="heartClip">
+          <path d="
+            M100 165
+            C10 100, 20 20, 100 55
+            C180 20, 190 100, 100 165
+          " />
+        </clipPath>
+      </defs>
+
+      <image
+        href="pixel.png"
+        x="20"
+        y="30"
+        width="160"
+        height="120"
+        clip-path="url(#heartClip)"
+        class="pixel-inside"
+      />
+
       <path d="
-        M50 85
-        C20 60, 5 45, 25 25
-        C40 10, 50 25, 50 25
-        C50 25, 60 10, 75 25
-        C95 45, 80 60, 50 85
+        M100 165
+        C10 100, 20 20, 100 55
+        C180 20, 190 100, 100 165
       " />
     </svg>
 
-    <!-- Pixel art -->
-    <img src="pixel.png" alt="Nosotros" class="pixel" />
-
-    <!-- Contador -->
     <div id="counter"></div>
 
     <h2 class="question">¿Ser mi Valentín? ❤️</h2>
